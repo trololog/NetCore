@@ -3,14 +3,16 @@ using System;
 using GraniteHouse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GraniteHouse.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181214160356_SpecialTags")]
+    partial class SpecialTags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,35 +29,6 @@ namespace GraniteHouse.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductTypes");
-                });
-
-            modelBuilder.Entity("GraniteHouse.Models.Products", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Available");
-
-                    b.Property<string>("Image");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<double>("Price");
-
-                    b.Property<int>("ProductTypeId");
-
-                    b.Property<string>("ShadeColor");
-
-                    b.Property<int>("SpecialTagId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductTypeId");
-
-                    b.HasIndex("SpecialTagId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("GraniteHouse.Models.SpecialTags", b =>
@@ -230,19 +203,6 @@ namespace GraniteHouse.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("GraniteHouse.Models.Products", b =>
-                {
-                    b.HasOne("GraniteHouse.Models.ProductTypes", "ProductTypes")
-                        .WithMany()
-                        .HasForeignKey("ProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GraniteHouse.Models.SpecialTags", "SpecialTags")
-                        .WithMany()
-                        .HasForeignKey("SpecialTagId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

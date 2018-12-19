@@ -1,4 +1,4 @@
-@model IEnumerable<GraniteHouse.Models.ProductTypes>
+@model IEnumerable<GraniteHouse.Models.SpecialTags>
 @{
     ViewData["Title"] = "Index";
 }
@@ -6,10 +6,10 @@
 <br>
 <div class="row">
     <div class="col-6">
-        <h2 class="text-info">Product Type List</h2>
+        <h2 class="text-info">Special Tag List</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" class="btn btn-info">New Product Type</a>
+        <a asp-action="Create" class="btn btn-info">New Special Tag</a>
     </div>
 </div>
 <br>
@@ -33,3 +33,7 @@
         </tr>
     }
 </table>
+
+
+
+
