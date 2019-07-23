@@ -5,6 +5,7 @@
 using IdentityServer4.Models;
 using System.Collections.Generic;
 using IdentityServer4.Test;
+using IdentityServer4;
 
 namespace IdentityServer
 {
@@ -14,7 +15,8 @@ namespace IdentityServer
         {
             return new IdentityResource[]
             {
-                new IdentityResources.OpenId()
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
             };
         }
 
@@ -44,7 +46,7 @@ namespace IdentityServer
                     // scopes that client has access to
                     AllowedScopes = { "testApi" }
                 }*/
-                new Client
+                /*new Client
                 {
                     ClientId = "ro.client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
@@ -54,6 +56,24 @@ namespace IdentityServer
                         new Secret("secret".Sha256())
                     },
                     AllowedScopes = { "testApi" }
+                }*/
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientName = "MVC Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }
@@ -74,15 +94,6 @@ namespace IdentityServer
                     Username = "bob",
                     Password = "password"
                 }
-            };
-        }
-
-        public static IEnumerable<IdentityResource> GetIdentityResources()
-        {
-            return new List<IdentityResource>
-            {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
             };
         }
     }

@@ -25,7 +25,7 @@ namespace TestWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
+            /*services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
@@ -50,12 +50,36 @@ namespace TestWebApp
 
                 options.ClientId = "mvc";
                 options.SaveTokens = true;
-            });
+            });*/
+
+            services.AddMvc();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "mvc";
+                    options.SaveTokens = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            /*app.UseAuthentication();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();*/
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,14 +87,11 @@ namespace TestWebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
 
             app.UseAuthentication();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
+            /*app.UseCookiePolicy();
+            app.UseHttpsRedirection();*/
 
             app.UseMvc(routes =>
             {
@@ -78,6 +99,9 @@ namespace TestWebApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
