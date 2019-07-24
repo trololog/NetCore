@@ -36,11 +36,6 @@ namespace GraniteHouse.Controllers
             return View(await products.ToListAsync());
         }
 
-        public IActionResult Create()
-        {
-            return View(ProductsVM);
-        }
-
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create()
@@ -53,6 +48,8 @@ namespace GraniteHouse.Controllers
             await _db.SaveChangesAsync();
 
             var webRootPath = _hostingEnvironment.WebRootPath;
+
+            return View(ProductsVM);
         }
     }
 }
