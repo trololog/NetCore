@@ -1,4 +1,4 @@
-namespace RepositoryApi.Model
+namespace RepositoryApi.Models
 {
     public class Post
     {
@@ -7,6 +7,5 @@ namespace RepositoryApi.Model
         public string Content { get; set; }
 
         public int BlogId { get; set; }
-        public Blog Blog { get; set; }
     }
 }

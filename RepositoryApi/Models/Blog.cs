@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace RepositoryApi.Model
+namespace RepositoryApi.Models
 {
     public class Blog
     {
